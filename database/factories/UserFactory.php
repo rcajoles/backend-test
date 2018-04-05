@@ -18,8 +18,19 @@ $factory->define(App\Model\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'phone_number' => $faker->phoneNumber,
-        'password' => bcrypt('password'), // secret
+        'phone_number' => '09' . $faker->randomNumber(9),
+        'password' => bcrypt('secret'), // secret
+        'remember_token' => str_random(10),
+    ];
+});
+
+$factory->defineAs(App\Model\User::class, 'noDetail', function (Faker $faker) {
+	$faker->locale('en_PH'); 
+    return [
+        'name' => '',
+        'email' => '',
+        'phone_number' => '',
+        'password' => '',
         'remember_token' => str_random(10),
     ];
 });

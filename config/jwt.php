@@ -8,13 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-$getTime = date("h:i:sa");  // get current time
- $time = strtotime($getTime); // convert to string in order to manipulate
- $expire_time = strtotime("20:00:00"); // set 8:00pm for expiration time then convert to string
- $ttl = round(abs($expire_time - $time) / 60); // get the difference of expire_time and current time 
- // dd($getTime);
 return [
-    'now' => $getTime,
 
     /*
     |--------------------------------------------------------------------------

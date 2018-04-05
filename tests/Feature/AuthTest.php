@@ -10,7 +10,8 @@ use App\Http\Controllers\UsersController as UserControl;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
 
-class UserTest extends TestCase
+
+class AuthTest extends TestCase
 {
     protected $user;
 
@@ -24,13 +25,13 @@ class UserTest extends TestCase
   }
 
   /** @test */
-  public function add_a_user()
+  public function login()
   {
     $createdStatus = 201;
     $createdResponse = 'Successfully added user';
 
-    // $user = DB::select('select * from users where id = 1');
-    // dd($user[0]->email);
+    $newUser = generateNewUser(null, 'make');
+    
     $data = [
       'username' => '0958982073',
       'password' => 'secret'
@@ -38,11 +39,6 @@ class UserTest extends TestCase
 
     $post = $this->post('/api/auth/login', $data);
     dd($post->getContent());
-    // generateNewUser(5, 'make');
-    $firstUser = User::first();
-    $token = JWTAuth::fromUser($firstUser);
-    $header = [ 'Authorization' => 'Bearer '. $token ];
-    $newUser = generateNewUser(null, 'make');
     // dd($newUser);
     $post = $this->post('/api/user', $newUser, $header);
 
@@ -58,10 +54,5 @@ class UserTest extends TestCase
     // $this->assertEquals($createdResponse, $result);
     $this->assertObjectHasAttribute('user_id', $result->data);
     $this->assertNull($result->error);
-
-
-    // dd($jsonReponseContent);
-    // $this->assertObjectHasAttribute('username', $jsonReponseContent);
-    // $this->assertObjectHasAttribute('id', $jsonReponseContent);
   }
 }
