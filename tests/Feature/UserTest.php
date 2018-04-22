@@ -9,6 +9,7 @@ use App\Model\User;
 use App\Http\Controllers\UsersController as UserControl;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
+use Faker\Factory as Faker;
 
 class UserTest extends TestCase
 {
@@ -22,6 +23,49 @@ class UserTest extends TestCase
     $this->user = $users;
     // User::truncate();
   }
+
+  /** @test */
+  public function register_new_user()
+  {
+    $faker = Faker::create();
+
+    $createdStatus = 201;
+    $createdResponse = 'Successfully added user';
+
+    $newUser = generateNewUser(null, 'make');
+    // dd($newUser);
+
+    $randomAccountEntry = [
+      $newUser['email'],
+      $newUser['phone_number'],
+    ];
+
+    $numberDigit = $faker->numberBetween(0,1);
+    
+    $data = [
+      'firstname' => $newUser['firstname'],
+      'lastname' => $newUser['lastname'],
+      'account' => $randomAccountEntry[$numberDigit],
+      'password' => 'secret',
+      'remember_token' => $newUser['remember_token']
+    ];
+    
+    $post = $this->post('/api/user/register', $data);
+    dd($post->getContent());
+
+    $post->assertStatus($createdStatus);
+    
+    $stringResponse = is_string($post->getContent());
+    $this->assertTrue($stringResponse);
+
+    $jsonReponseContent = $post->getContent();
+    $result = json_decode($jsonReponseContent);
+    // dd($result);
+    // $this->assertEquals($createdResponse, $result);
+    $this->assertObjectHasAttribute('user_id', $result->data);
+    $this->assertNull($result->error);
+  }
+
 
   /** @test */
   public function add_a_user()

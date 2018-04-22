@@ -24,6 +24,7 @@ class AuthTest extends TestCase
     // User::truncate();
   }
 
+  
   /** @test */
   public function login()
   {
@@ -31,9 +32,11 @@ class AuthTest extends TestCase
     $createdResponse = 'Successfully added user';
 
     $newUser = generateNewUser(null, 'make');
-    
+    // dd($newUser);
+    $user = User::first();
+
     $data = [
-      'username' => '0958982073',
+      'account' => $user->phone_number,
       'password' => 'secret'
     ];
 

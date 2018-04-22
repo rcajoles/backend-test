@@ -28,17 +28,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $username = request('username');
+        $account = request('account');
         $password = request('password');
 
-        if (is_numeric($username)) {
+        if (is_numeric($account)) {
             $credentials = [
-                'phone_number' => $username
+                'phone_number' => $account
             ];
         }
-        else if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        else if (filter_var($account, FILTER_VALIDATE_EMAIL)) {
             $credentials = [
-                'email' => $username
+                'email' => $account
             ];
         }
         $credentials['password'] = $password;

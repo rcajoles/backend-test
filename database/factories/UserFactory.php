@@ -16,21 +16,23 @@ use Faker\Generator as Faker;
 $factory->define(App\Model\User::class, function (Faker $faker) {
 	$faker->locale('en_PH'); 
     return [
-        'name' => $faker->name,
+        'firstname' => $faker->firstName,
+        'lastname' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'phone_number' => '09' . $faker->randomNumber(9),
         'password' => bcrypt('secret'), // secret
-        'remember_token' => str_random(10),
+        'remember_token' => $faker->boolean,
     ];
 });
 
 $factory->defineAs(App\Model\User::class, 'noDetail', function (Faker $faker) {
 	$faker->locale('en_PH'); 
     return [
-        'name' => '',
+        'firstname' => '',
+        'lastname' => '',
         'email' => '',
         'phone_number' => '',
         'password' => '',
-        'remember_token' => str_random(10),
+        'remember_token' => $faker->boolean,
     ];
 });

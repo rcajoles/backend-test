@@ -8,6 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+
+ date_default_timezone_set("Asia/Manila"); // set default time zone
+
+ $now = strtotime(date('Y-m-d H:i:s'));  // time now
+ $expire_time = strtotime("20:00:00");  // daily ttl time expiration
+ $diff = $expire_time - $now;   // difference of expiry from time now$time = date('H:i:s', $diff);
+ $rounded_value = round(abs($diff)/60, 0, PHP_ROUND_HALF_UP);
+ define('TTL_EXPIRY', $rounded_value);
+ 
+ $time = date('H:i:s', $diff); // time in Hours/minutes/seconds
+ 
+
 return [
 
     /*
@@ -99,6 +112,7 @@ return [
     |
     */
 
+    // 'ttl' => env('JWT_TTL', 60),
     'ttl' => env('JWT_TTL', 60),
 
     /*
